@@ -1,6 +1,7 @@
 from app import db
+from .associations import pokemon_tipo, pokemon_habilidad, pokemon_ruta
 
-class Pokemon(db.model):
+class Pokemon(db.Model):
   id = db.Column(db.Integer, primary_key=True)
   name = db.Column(db.String(50))
   index = db.Column(db.Integer)
@@ -16,6 +17,10 @@ class Pokemon(db.model):
   sprite_url = db.Column(db.String(100))
   imagen_url = db.Column(db.String(100))
 
+  tipos = db.relationship('Tipo', secondary=pokemon_tipo, backref='pokemones')
+  habilidades = db.relationship('Habilidad', secondary=pokemon_habilidad, backref='pokemones')
+  rutas = db.relationship('Ruta', secondary=pokemon_ruta, backref='pokemones')
+
   def to_dic(self):
     return {
       "name": self.id,
@@ -30,5 +35,11 @@ class Pokemon(db.model):
       "speed": self.speed,
       "audio_url": self.audio_url,
       "sprite_url": self.sprite_url,
-      "imagen_url": self.imagen_url
+      "imagen_url": self.imagen_url,
+      'habilidades': [habilidades.to_dict() for habilidades in self.habilidades],
+      'tipo': [tipo.to_dict() for tipo in self.tipos],
+      'ruta': [ruta.to_dict() for ruta in self.rutas]
+      
     }
+  
+  

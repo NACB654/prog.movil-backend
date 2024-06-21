@@ -1,0 +1,20 @@
+from marshmallow import Schema, fields
+
+class PokemonSchema(Schema):
+    id = fields.Int(dump_only=True)
+    nombre = fields.Str(required=True)
+    numero = fields.Int(required=True)
+    peso = fields.Float(required=True)
+    altura = fields.Float(required=True)
+    descripcion = fields.Str(required=False)
+    ataque = fields.Int(required=True)
+    defensa = fields.Int(required=True)
+    ataque_especial = fields.Int(required=True)
+    defensa_especial = fields.Int(required=True)
+    velocidad = fields.Int(required=True)
+    audio_url = fields.Url(require_tld=False)
+    imagen_url = fields.Url(require_tld=False)
+    sprite_url = fields.Url(require_tld=False)
+    tipos = fields.List(fields.Nested('TipoSchema'))
+    habilidades = fields.List(fields.Nested('HabilidadSchema'))
+    rutas = fields.List(fields.Nested('RutaSchema'))

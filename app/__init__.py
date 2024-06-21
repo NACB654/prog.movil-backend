@@ -13,7 +13,7 @@ def create_app():
     migrate.init_app(app, db)
 
     with app.app_context():
-        from app.models import Usuario
+        from app.models import Usuario, Pokemon, Region, Ruta, Tipo, Habilidad
         from app.routes import UserRoute
         app.register_blueprint(UserRoute.bp)
 
