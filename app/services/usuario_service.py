@@ -24,3 +24,15 @@ class UserService:
   @staticmethod
   def get_pokemons(id):
     return Usuario.query.get(id)
+  
+  @staticmethod
+  def login_user(data):
+      email = data.get('email')
+      password = data.get('password')
+
+      user = Usuario.query.filter_by(email=email, password=password).first()
+
+      if user is None:
+          return None
+
+      return user

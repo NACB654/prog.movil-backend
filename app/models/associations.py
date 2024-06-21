@@ -23,3 +23,8 @@ pokemon_ruta = db.Table('pokemon_ruta',
     db.Column('pokemon_id', db.Integer, db.ForeignKey('pokemon.id'), primary_key=True),
     db.Column('ruta_id', db.Integer, db.ForeignKey('ruta.id'), primary_key=True)
 )
+
+amigos = db.Table('amigos',
+    db.Column('usuario1_id', db.Integer, db.ForeignKey('usuario.id'), primary_key=True),
+    db.Column('usuario2_id', db.Integer, db.ForeignKey('usuario.id'), primary_key=True)
+)
