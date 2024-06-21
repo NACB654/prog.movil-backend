@@ -18,3 +18,13 @@ class UserRoute:
       return jsonify(new_user.to_dic()), 201
     except ValueError as err:
       return jsonify({"msg": str(err)}), 400
+    
+  @bp.route('/login', methods=['POST'])
+  def login_user():
+      data = request.get_json()
+
+      user = UserService.login_user(data)
+      if user is None:
+          return jsonify({"error": "Invalid email or password"}), 401
+
+      return jsonify(user.to_dic()), 200

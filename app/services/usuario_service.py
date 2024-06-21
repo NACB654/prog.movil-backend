@@ -20,3 +20,15 @@ class UserService:
   @staticmethod
   def get_user():
     return Usuario.query.all()
+  
+  @staticmethod
+  def login_user(data):
+      email = data.get('email')
+      password = data.get('password')
+
+      user = Usuario.query.filter_by(email=email, password=password).first()
+
+      if user is None:
+          return None
+
+      return user

@@ -14,7 +14,8 @@ def create_app():
 
     with app.app_context():
         from app.models import Usuario, Pokemon, Region, Ruta, Tipo, Habilidad
-        from app.routes import UserRoute
+        from app.routes import UserRoute,FriendRoute
         app.register_blueprint(UserRoute.bp)
+        app.register_blueprint(FriendRoute.bp)
 
     return app

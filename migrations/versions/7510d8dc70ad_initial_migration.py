@@ -1,8 +1,8 @@
 """Initial migration.
 
-Revision ID: 35465f6f1d5b
+Revision ID: 7510d8dc70ad
 Revises: 
-Create Date: 2024-06-20 20:10:36.857399
+Create Date: 2024-06-20 23:40:13.302562
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '35465f6f1d5b'
+revision = '7510d8dc70ad'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -61,6 +61,21 @@ def upgrade():
     sa.Column('imagen_url', sa.String(length=100), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
+    op.create_table('amigo',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('usuario1_id', sa.Integer(), nullable=False),
+    sa.Column('usuario2_id', sa.Integer(), nullable=False),
+    sa.ForeignKeyConstraint(['usuario1_id'], ['usuario.id'], ),
+    sa.ForeignKeyConstraint(['usuario2_id'], ['usuario.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_table('amigos',
+    sa.Column('usuario1_id', sa.Integer(), nullable=False),
+    sa.Column('usuario2_id', sa.Integer(), nullable=False),
+    sa.ForeignKeyConstraint(['usuario1_id'], ['usuario.id'], ),
+    sa.ForeignKeyConstraint(['usuario2_id'], ['usuario.id'], ),
+    sa.PrimaryKeyConstraint('usuario1_id', 'usuario2_id')
+    )
     op.create_table('pokemon_habilidad',
     sa.Column('pokemon_id', sa.Integer(), nullable=False),
     sa.Column('habilidad_id', sa.Integer(), nullable=False),
@@ -106,6 +121,8 @@ def downgrade():
     op.drop_table('ruta')
     op.drop_table('pokemon_tipo')
     op.drop_table('pokemon_habilidad')
+    op.drop_table('amigos')
+    op.drop_table('amigo')
     op.drop_table('usuario')
     op.drop_table('tipo')
     op.drop_table('region')
