@@ -20,3 +20,7 @@ class UserService:
   @staticmethod
   def get_user():
     return Usuario.query.all()
+  
+  @staticmethod
+  def get_pokemons(id):
+    return Usuario.query.get(id)

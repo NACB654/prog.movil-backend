@@ -36,10 +36,7 @@ class Pokemon(db.Model):
       "audio_url": self.audio_url,
       "sprite_url": self.sprite_url,
       "imagen_url": self.imagen_url,
-      'habilidades': [habilidades.to_dict() for habilidades in self.habilidades],
-      'tipo': [tipo.to_dict() for tipo in self.tipos],
-      'ruta': [ruta.to_dict() for ruta in self.rutas]
-      
+      'habilidades': [habilidades.to_dic() for habilidades in self.habilidades],
+      'tipo': [tipo.to_dic() for tipo in self.tipos],
+      'ruta': [ruta.to_dic() for ruta in self.rutas]
     }
-  
-  

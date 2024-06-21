@@ -18,3 +18,11 @@ class UserRoute:
       return jsonify(new_user.to_dic()), 201
     except ValueError as err:
       return jsonify({"msg": str(err)}), 400
+    
+  @bp.route ('/<int:usuario_id>/pokemons', methods=['GET'])
+  def get_pokemons(usuario_id):
+    try:
+      results = UserService.get_pokemons(usuario_id)
+      return jsonify([result.to_dic() for result in results.pokemons])
+    except ValueError as err:
+      return jsonify({"msg": str(err)}), 400

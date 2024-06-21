@@ -1,3 +1,4 @@
 instance/mydatabase.db
 pokedex
 __pycache__
+migrations
