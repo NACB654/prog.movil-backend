@@ -5,8 +5,8 @@ import requests
 class PokemonRoute:
   bp = Blueprint('pokemon_routes', __name__, url_prefix='/pokemons')
 
-  @bp.route ('/identificar', methods=['POST'])
-  def identify_pokemon():
+  @bp.route ('/identificar/<int:usuario_id>', methods=['POST'])
+  def identify_pokemon(usuario_id):
     data = request.files['file']
 
     try:
@@ -30,9 +30,9 @@ class PokemonRoute:
         "sprite_url": data["sprites"]["front_default"],
         "imagen_url": data["sprites"]["other"]["official-artwork"]["front_default"],
         "tipos": [tipo["type"]["name"].upper() for tipo in data["types"]],
-        "habilidades": [habilidad["ability"]["name"].replace("-", " ").capitalize() for habilidad in data["abilities"]]
+        "habilidades": [habilidad["ability"]["name"].replace("-", " ").title() for habilidad in data["abilities"]]
       }
-      result = PokemonService.add_pokemon(new_pokemon, 1)
+      result = PokemonService.add_pokemon(new_pokemon, usuario_id)
       return jsonify(result.to_dic()), 201
     except ValueError as err:
       return jsonify({"msg": str(err)}), 400
