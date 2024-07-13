@@ -13,7 +13,11 @@ class PokemonRoute:
       prediction = PokemonService.identify_pokemon(data)
       new_pokemon = PokemonService.add_pokemon(prediction, usuario_id)
 
-      return jsonify(new_pokemon.to_dic()), 201
+      if type(new_pokemon) == "String":
+        return jsonify({"msg": new_pokemon})
+      else:
+        return jsonify(new_pokemon.to_dic()), 201
+      
     except ValueError as err:
       return jsonify({"msg": str(err)}), 400
     

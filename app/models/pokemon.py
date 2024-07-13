@@ -23,7 +23,8 @@ class Pokemon(db.Model):
 
   def to_dic(self):
     return {
-      "name": self.id,
+      "id": self.id,
+      "name": self.name,
       "index": self.index,
       "weight": self.weight,
       "height": self.height,
@@ -38,5 +39,5 @@ class Pokemon(db.Model):
       "imagen_url": self.imagen_url,
       'habilidades': [habilidades.to_dic() for habilidades in self.habilidades],
       'tipo': [tipo.to_dic() for tipo in self.tipos],
-      'ruta': [ruta.to_dic() for ruta in self.rutas]
+      'ruta': [ruta.to_dict() for ruta in self.rutas]
     }

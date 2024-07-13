@@ -20,6 +20,5 @@ class Usuario(db.Model):
       "nickname": self.nickname,
       "email": self.email,
       "password": self.password,
-      "imagen_url": self.imagen_url,
-      'pokemons': [pokemon.to_dict() for pokemon in self.pokemons]
+      "imagen_url": self.imagen_url
     }
