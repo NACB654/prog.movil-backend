@@ -9,7 +9,10 @@ class PokemonService:
 
   @staticmethod
   def add_pokemon(prediction, user_id):
-    if len(prediction) > 0:
+    print(prediction)
+    is_found = Pokemon.query.filter_by(name=prediction[0]['label']).first()
+    print(is_found)
+    if is_found == None:
       url = f"https://pokeapi.co/api/v2/pokemon/{prediction[0]['label'].lower()}"
       description_url = f"https://pokeapi.co/api/v2/pokemon-species/{prediction[0]['label'].lower()}"
       generation_url = f"https://pokeapi.co/api/v2/pokemon-species/{prediction[0]['label'].lower()}"
@@ -37,7 +40,7 @@ class PokemonService:
         "imagen_url": data["sprites"]["other"]["official-artwork"]["front_default"],
         "tipos": [tipo["type"]["name"].upper() for tipo in data["types"]],
         "habilidades": [habilidad["ability"]["name"].replace("-", " ").title() for habilidad in data["abilities"]],
-        "rutas": [ruta["name"].replace("-", " ").title() for ruta in filtered_locations]
+        "rutas": filtered_locations
       }
       
       new_pokemon = Pokemon(
@@ -70,19 +73,19 @@ class PokemonService:
 
       ruta_nombres = new_prediction.get('rutas', [])
       for ruta_nombre in ruta_nombres:
-        ruta = Ruta.query.filter_by(name=ruta_nombre).first()
+        ruta = Ruta.query.filter_by(name=ruta_nombre['name'], region_id=ruta_nombre['region']).first()
         if ruta:
           new_pokemon.rutas.append(ruta)
 
       user = Usuario.query.get(user_id)
       user.pokemons.append(new_pokemon)
       
-      # db.session.add(new_pokemon)
-      # db.session.commit()
+      db.session.add(new_pokemon)
+      db.session.commit()
 
       return new_pokemon
     else:
-      return "Error en la conexion. Vuelve a intentar mas tarde"
+      return is_found
   
   @staticmethod
   def identify_pokemon(image):
@@ -114,6 +117,7 @@ class PokemonService:
       location = requests.get(location_url).json()
 
       if location['region']['name'] == regions[generation]:
-        filtered_location.append(location)
+        ruta = {"name": location['names'][-1]["name"], "region": location["region"]["url"][-2]}
+        filtered_location.append(ruta)
 
     return filtered_location
