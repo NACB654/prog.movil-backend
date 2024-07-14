@@ -9,15 +9,14 @@ class UserRoute:
     users = UserService.get_user()
     return jsonify([user.to_dic() for user in users])
 
-  @bp.route ('/', methods=['POST'])
+  @bp.route('/register', methods=['POST'])
   def create_user():
-    data = request.get_json()
-
-    try:
-      new_user = UserService.create_user(data)
-      return jsonify(new_user.to_dic()), 201
-    except ValueError as err:
-      return jsonify({"msg": str(err)}), 400
+        data = request.get_json()
+        try:
+            new_user = UserService.create_user(data)
+            return jsonify(new_user.to_dic()), 201
+        except ValueError as err:
+            return jsonify({"msg": str(err)}), 400
     
   @bp.route ('/<int:usuario_id>/pokemons', methods=['GET'])
   def get_pokemons(usuario_id):
