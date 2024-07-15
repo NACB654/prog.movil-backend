@@ -12,7 +12,7 @@ class PokemonRoute:
     try:
       prediction = PokemonService.identify_pokemon(data)
 
-      if len(prediction) > 0:
+      if isinstance(prediction, list):
         new_pokemon = PokemonService.add_pokemon(prediction, usuario_id)
         return jsonify(new_pokemon.to_dic()), 201
       else:

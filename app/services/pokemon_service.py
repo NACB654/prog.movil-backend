@@ -10,7 +10,7 @@ class PokemonService:
   @staticmethod
   def add_pokemon(prediction, user_id):
     print(prediction)
-    is_found = Pokemon.query.filter_by(name=prediction[0]['label']).first()
+    is_found = db.session.query(Pokemon).join(Usuario.pokemons).filter(Pokemon.name == prediction[0]['label']).filter(Usuario.id == user_id).first()
     print(is_found)
     if is_found == None:
       url = f"https://pokeapi.co/api/v2/pokemon/{prediction[0]['label'].lower()}"
@@ -119,5 +119,7 @@ class PokemonService:
       if location['region']['name'] == regions[generation]:
         ruta = {"name": location['names'][-1]["name"], "region": location["region"]["url"][-2]}
         filtered_location.append(ruta)
+    
+    filtered_location = [i for n, i in enumerate(filtered_location) if i not in filtered_location[:n]]
 
     return filtered_location

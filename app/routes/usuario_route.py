@@ -22,7 +22,10 @@ class UserRoute:
   def get_pokemons(usuario_id):
     try:
       results = UserService.get_pokemons(usuario_id)
-      return jsonify([result.to_dic() for result in results.pokemons])
+      pokemons = [result.to_dic() for result in results.pokemons]
+      pokemons = sorted(pokemons, key=lambda x : x['index'])
+
+      return jsonify(pokemons)
     except ValueError as err:
       return jsonify({"msg": str(err)}), 400
     

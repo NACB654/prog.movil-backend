@@ -24,10 +24,12 @@ def get_locations(locations, generation):
         ruta = {"name": location['names'][-1]["name"], "region": location["region"]["url"][-2]}
         filtered_location.append(ruta)
 
+    filtered_location = [i for n, i in enumerate(filtered_location) if i not in filtered_location[:n]]
+
     return filtered_location
 
-url = f"https://pokeapi.co/api/v2/pokemon/tyranitar"
-generation_url = f"https://pokeapi.co/api/v2/pokemon-species/tyranitar"
+url = f"https://pokeapi.co/api/v2/pokemon/ditto"
+generation_url = f"https://pokeapi.co/api/v2/pokemon-species/ditto"
 
 data = requests.get(url=url).json()
 data_generation = requests.get(generation_url).json()['generation']['name']
