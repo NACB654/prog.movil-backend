@@ -16,7 +16,7 @@ class PokemonRoute:
         new_pokemon = PokemonService.add_pokemon(prediction, usuario_id)
         return jsonify(new_pokemon.to_dic()), 201
       else:
-        return jsonify({"msg": "Error en la conexión intentalo más tarde"}), 400
+        return jsonify({"msg": "Error en la conexión intentalo más tarde"}), 404
       
     except ValueError as err:
       return jsonify({"msg": str(err)}), 400
@@ -25,6 +25,6 @@ class PokemonRoute:
   def get_pokemon(pokemon_id):
     try:
       pokemon = PokemonService.get_pokemon(pokemon_id)
-      return jsonify(pokemon.to_dic())
+      return jsonify(pokemon.to_dic()), 200
     except ValueError as err:
       return jsonify({"msg": str(err)}), 400
