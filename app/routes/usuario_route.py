@@ -38,3 +38,15 @@ class UserRoute:
           return jsonify({"error": "Invalid email or password"}), 401
 
       return jsonify(user.to_dic()), 200
+  
+  @bp.route('/search', methods=['GET'])
+  def search_user():
+      nickname = request.args.get('nickname')
+      if not nickname:
+          return jsonify({"error": "Nickname is required"}), 400
+
+      user = UserService.search_user(nickname)
+      if not user:
+          return jsonify({"error": "User not found"}), 404
+
+      return jsonify(user.to_dic())

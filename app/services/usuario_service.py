@@ -36,3 +36,7 @@ class UserService:
           return None
 
       return user
+  
+  @staticmethod
+  def search_user(nickname):
+      return Usuario.query.filter_by(nickname=nickname).first()
